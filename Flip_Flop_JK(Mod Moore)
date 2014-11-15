@@ -1,0 +1,21 @@
+module Flip_Flop_JK(q, j, k, clock, reset_);
+/* 
+(j,k)==00 --> conserva
+(j,k)==01 --> resetta
+(j,k)==11 --> commuta
+(j,k)==10 --> setta
+*/
+input clock, reset_;
+input j,k;
+output q;
+reg STAR; 
+parameter S0='B0, S1='B1;
+assign q=(STAR==S0)?0:1;
+always@(reset_==0) #1 STAR<=S0;
+always@(posedge clock) if (reset_==1) #3
+  casex(STAR)
+    S0 : STAR<=(j==0)?SO:S1;
+    S1 : STAR<=(k==0)?S1:S0;
+  endcase
+  
+endmodule
